@@ -20,8 +20,8 @@ The assigned videos will be played back at a speed that matches the set BPM whil
 - You may get an error that **VCRUNTIME140_1.dll** does not exist. In that case, please download and install vc_redist.x64.exe from [here](https://support.microsoft.com/en-us/topic/the-latest-supported-visual-c-downloads-2647da03-1eea-4433-9aff-95f26a218cc0).
 
 ### Notice
-- In this software, real-time processing highly depends on CPU performance, not GPU.
-- This software uses a lot of memory to load frames. When you run the program, it will show you the memory size required to load the videos, so make sure you check it carefully!
+- In this software, real-time processing **highly depends on CPU performance**, not GPU.
+- This software uses a lot of memory to load frames. **When you run the program, it will show you the memory size required to load the videos, so make sure you check it carefully!**
 
 # How it works
 When you start RoxJockey.exe, the process proceeds as follows:
