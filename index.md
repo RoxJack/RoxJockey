@@ -1,13 +1,17 @@
-# About
+## What is this?
 Rox Jockey is a realtime and BPM-synced video jockey.
-By editing the presets, you can assign video (specific frames) or images to keyboard events.
+
+By editing some presets, you can assign videos (specific frames) or images to keyboard events.
 It is also possible to have geometric processing, such as scale and angle changes, and chroma key processing performed beforehand.
 
 The assigned videos will be played back at a speed that matches the set BPM while the key event is occurring.
 (The BPM can be changed at any time by hitting a specific key in a certain rhythm)
 
 <video width="320" height="180" controls>
-  <source type="video/mp4" src="butterfly_example.mp4">
+  <source type="video/mp4" src="vid/butterfly_example.mp4">
+</video>
+<video width="320" height="180" controls>
+  <source type="video/mp4" src="vid/animated_example.mp4">
 </video>
 
 # Required runtime environment
