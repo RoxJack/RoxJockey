@@ -121,6 +121,18 @@ You can also specify the **"always"** keyword to make it always play, as shown b
 "event": "always"
 ```
 
+### Keyboard Codes
+- **"a"~"z"**
+- Special keys
+  - **"return"**
+  - **"lcontrol"** / **"rcontrol"**
+  - **"lshift"** / **"rshift"**
+  - **"space"**
+
+### Keyboard States
+- **"down"**
+- **"up"**
+
 ## keying (required)
 Specifies **whether chroma keying will be applied**; if true, the default is to remove the green screen.
 
