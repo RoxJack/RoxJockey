@@ -20,8 +20,9 @@ The assigned videos will be played back at a speed that matches the set BPM whil
 - You may get an error that **VCRUNTIME140_1.dll** does not exist. In that case, please download and install vc_redist.x64.exe from [here](https://support.microsoft.com/en-us/topic/the-latest-supported-visual-c-downloads-2647da03-1eea-4433-9aff-95f26a218cc0).
 
 ### Notice
-- In this software, real-time processing **highly depends on CPU performance**, not GPU.
-- This software uses a lot of memory to load frames. **When you run the program, it will show you the memory size required to load the videos, so make sure you check it carefully!**
+- **This was inspired by VTuber green screens, so the chroma keying works well against them, but may not be adaptable to common green screens.**
+- **In this software, real-time processing highly depends on CPU performance, not GPU.**
+- **This software uses a lot of memory to load frames. When you run the program, it will show you the memory size required to load the videos, so make sure you check it carefully!**
 
 # How it works
 When you start RoxJockey.exe, the process proceeds as follows:
@@ -42,10 +43,10 @@ When you start RoxJockey.exe, the process proceeds as follows:
     "beat": "return"
   },
   "presets":[
-    "tutorials/tutorial1.json",
-    "tutorials/tutorial2.json"
+    "tutorial/sample.json"
   ]
 }
+
 ```
 
 ## resolution (required)
@@ -64,8 +65,7 @@ Since it takes the average of the intervals between beats while the Left control
 ## presets (required)
 Specifies presets to load from **presets** directory.
 
-Each preset is assigned to the numeric keys in the specified order. In the example above, "tutorials/tutorial1.json" is assigned to the numeric key "1" and "tutorials/tutorial2.json" is assigned to the numeric key "2".
-By pressing these numeric keys in the full screen window, you can switch presets.
+Each preset is assigned to the numeric keys 1~9 in the order in which they are set.
 
 # Preset file
 - **It must be JSON format.**
@@ -112,7 +112,7 @@ Specifies the frames to be loaded by **[start frame, end frame]**.
 ## event (required)
 Specifies **the start key event** when the frame starts to be displayed and **the key event when it ends**.
 
-The frame will be displayed during the event. In the first event in the example above, the frame will be played only while the **"z" key** is down.
+In the first event in the example above, the frame will be played only while the **"z" key** is down.
 On the other hand, in the second event, once the **"a" key** is pressed, the frame will continue to play until the **"a" key** is pressed again.
 When the event is restarted, the frame will start playing again from the beginning.
 
