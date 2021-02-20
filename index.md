@@ -17,7 +17,7 @@ The assigned videos will be played back at a speed that matches the set BPM whil
 
 # Required runtime environment
 - Windows 10 x64
-- You may get an error that **VCRUNTIME140_1.dll** does not exist. In that case, please download and install vc_redist.x64.exe from [here](https://support.microsoft.com/en-us/topic/the-latest-supported-visual-c-downloads-2647da03-1eea-4433-9aff-95f26a218cc0).
+- You may get an error that **VCRUNTIME140_1.dll** does not exist. In that case, please download and install **vc_redist.x64.exe** from [here](https://support.microsoft.com/en-us/topic/the-latest-supported-visual-c-downloads-2647da03-1eea-4433-9aff-95f26a218cc0).
 
 ### Notice
 - **This was inspired by VTuber green screens, so the chroma keying works well against them, but may not be adaptable to common green screens.**
