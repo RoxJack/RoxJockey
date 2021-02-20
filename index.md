@@ -7,7 +7,7 @@ It is also possible to have geometric processing, such as scale and angle change
 The assigned videos will be played back at a speed that matches the set BPM while the key event is occurring.
 (The BPM can be changed at any time by hitting a specific key in a certain rhythm)
 
-**Each of the examples below is generated from a single piece of footage:**
+**Each of the examples below is generated from a single piece of footage with a few  settings:**
 <video width="320" height="180" controls>
   <source type="video/mp4" src="vid/butterfly_example.mp4">
 </video>
