@@ -1,5 +1,5 @@
 # What is this?
-Rox Jockey is a realtime and BPM-synced video jockey.
+Rox Jockey is **a realtime and BPM-synced video jockey**.
 
 By editing some presets, you can assign videos (specific frames) or images to keyboard events.
 It is also possible to have geometric processing, such as scale and angle changes, and chroma key processing performed beforehand.
@@ -7,6 +7,7 @@ It is also possible to have geometric processing, such as scale and angle change
 The assigned videos will be played back at a speed that matches the set BPM while the key event is occurring.
 (The BPM can be changed at any time by hitting a specific key in a certain rhythm)
 
+**Each of the examples below is generated from a single piece of footage:**
 <video width="320" height="180" controls>
   <source type="video/mp4" src="vid/butterfly_example.mp4">
 </video>
@@ -31,7 +32,7 @@ When you start RoxJockey.exe, the process proceeds as follows:
 4. Assign the footages to keyboard events and generate a full-screen window.
 
 # Configuration file (config.json)
-It must be JSON format.
+- **It must be JSON format.** The default settings are as follows:
 
 ```json
 {
@@ -67,8 +68,9 @@ Each preset is assigned to the numeric keys in the specified order. In the examp
 By pressing these numeric keys in the full screen window, you can switch presets.
 
 # Preset file
-It must be JSON format.
-**Even if you are setting up a single event, please use array format.**
+- **It must be JSON format.**
+- **Even if you are setting up a single event, please use array format.**
+- **The footage you add later will be displayed in the front.**
 
 ```json
 [
