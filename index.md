@@ -1,13 +1,12 @@
-# What is this?
-Rox Jockey is **a realtime and BPM-synced video jockey**.
+# はじめに
+Rox Jockeyは**リアルタイムかつBPMに合わせて**フレームを再生するVJぽいソフトです。
 
-By editing some presets, you can assign videos (specific frames) or images to keyboard events.
-It is also possible to have geometric processing, such as scale and angle changes, and chroma key processing performed beforehand.
+JSON形式のプリセットファイルを編集することで、**特定のフレーム区間や画像**をキーボードイベントに割り当てることができます。
+また前処理として、**スケール変更、座標変更、回転、トリミングやクロマキー処理**もプリセットを書き換えるだけで行わせることができます。
 
-The assigned videos will be played back at a speed that matches the set BPM while the key event is occurring.
-(The BPM can be changed at any time by hitting a specific key in a certain rhythm)
+BPMは、設定されたキーをBPMに合わせて叩くことで変更できます。
 
-**Each of the examples below is generated from a single piece of footage with a few  settings:**
+**以下の二例はどちらも一つの動画ファイルとプリセットで動作しています。**
 <video width="320" height="180" controls>
   <source type="video/mp4" src="vid/butterfly_example.mp4">
 </video>
@@ -15,25 +14,27 @@ The assigned videos will be played back at a speed that matches the set BPM whil
   <source type="video/mp4" src="vid/animated_example.mp4">
 </video>
 
-# Required runtime environment
+# 必要環境
 - Windows 10 x64
-- You may get an error that **VCRUNTIME140_1.dll** does not exist. In that case, please download and install **vc_redist.x64.exe** from [here](https://support.microsoft.com/en-us/topic/the-latest-supported-visual-c-downloads-2647da03-1eea-4433-9aff-95f26a218cc0).
+- そこそこのCPUとメモリがあれば動作します。
+  - i5-7300(2.6GHz)で動作確認済み
+  - **GPUは一切使いません**
 
-### Notice
-- **This was inspired by VTuber green screens, so the chroma keying works well against them, but may not be adaptable to common green screens.**
-- **In this software, real-time processing highly depends on CPU performance, not GPU.**
-- **This software uses a lot of memory to load frames. When you run the program, it will show you the memory size required to load the videos, so make sure you check it carefully!**
+### 注意
+- このソフトは**大量のメモリ**を使用します。**プログラムを実行すると、必要なメモリサイズがいったん表示される**のでよく確認してください。
+- 実装しているクロマキー処理は一部のVTuberの映像でしかテストしておらず、汎用的にはおそらく機能しません。
 
-# How it works
-When you start RoxJockey.exe, the process proceeds as follows:
+# 動作の流れ
+RoxJockeyは複数のJSONファイルによって動作します。
+実際には以下のような流れで処理が進みます。
 
-1. Read **config.json** file in the same directory.
-2. Read the preset files in **presets** directory based on **config.json**.
-3. Load and pre-process the footages in **footages** directory based on the preset files.
-4. Assign the footages to keyboard events and generate a full-screen window.
+1. 同じディレクトリにある**config.json**の読み込み
+2. **config.json**の`presets`に指定されたプリセットファイルを**presetsディレクトリ**から読み込み
+3. プリセットファイルの`footage`に指定されたメディアファイルを**footagesディレクトリ**から読み込み
+4. フレームをキーボードイベントに割り当てフルスクリーンウィンドウを生成
 
-# Configuration file (config.json)
-- **It must be JSON format.** The default settings are as follows:
+# 設定ファイル（config.json）
+- JSON形式。初期設定は以下の通り:
 
 ```json
 {
@@ -49,29 +50,31 @@ When you start RoxJockey.exe, the process proceeds as follows:
 
 ```
 
-## resolution (required)
-Specifies the resolution to be displayed by **[width, height]**.
-
-If the resolution does not match the display you are using, it will be scaled automatically.
-The smaller the resolution you specify, the less memory will be used, but the quality will be rough.
-Some of the preset settings are affected by the resolution you specify here.
+## resolution (必須)
+表示する映像の解像度を**[幅, 高さ]**で指定します。
+- 使用しているディスプレイと指定された解像度が異なる場合、そのディスプレイにフィットするように自動的にスケールされます。
+- 指定する解像度が小さいほど必要なメモリサイズは小さくなりますが、画質は粗くなります。
+- プリセットによってはこの解像度に影響を受ける場合があります。
 
 ## bpm (required)
-Specifies **two keys** to be used for configuring bpm.
+BPM設定用のキーを**二つ**設定します。
+- `hold`で指定したキーを押している間、`beat`で指定したキーをBPMに合わせて叩くことで、BPMが設定されていきます。
+- 初期設定では、**左コントロールキー**を押している間に**エンターキー**を押すことで、BPMを設定できます。設定を終える場合、**左コントロールキー**を離します。
+- 押されたビートの間隔の平均をとるため、繰り返し数が増えると値が安定します。
 
-In the above example, you can set the BPM by repeatedly pressing **Return Key** for one beat while holding down **Left Control Key**.
-Since it takes the average of the intervals between beats while the Left control key is pressed, the more repetitions there are, the more accurate the BPM becomes.
+## presets (必須)
+**presetsディレクトリ**内のどのプリセットを読み込むかを指定します。
 
-## presets (required)
-Specifies presets to load from **presets** directory.
+指定された順に、それぞれのプリセットは**数字キーの1～9,0**に割り当てられます。
 
-Each preset is assigned to the numeric keys 1~9 in the order in which they are set.
+## default_bpm (オプション)
+ソフト起動時のBPMを設定します。デフォルトでは**125**に設定されています。
 
-# Preset file
-- **It must be JSON format.**
-- **Even if you are setting up a single event, please use array format.**
-- **The footage you add later will be displayed in the front.**
+# プリセットファイル
+- JSON形式。
+- **後で発動したイベントほど前面に描画されます。**
 
+例:
 ```json
 [
   {
@@ -101,42 +104,43 @@ Each preset is assigned to the numeric keys 1~9 in the order in which they are s
 ]
 ```
 
-## footage (required)
-Specifies **a footage** to load from **footages** directory.
+## footage (必須)
+**footagesディレクトリ**内のどのメディアファイルを読み込むかを指定します。
+- 画像ファイルも設定可能。
 
-An image file can also be set.
+## frame_segment (必須)
+`footage`で指定したメディアファイルのうち**再生するフレーム区間を[開始フレーム位置, 終了フレーム位置]**で設定します。
+- `footage`に画像ファイルを設定した場合は必要ありません。
 
-## frame_segment (required to load a video)
-Specifies the frames to be loaded by **[start frame, end frame]**.
-
-## event (required)
-Specifies **the start key event** when the frame starts to be displayed and **the key event when it ends**.
-
-In the first event in the example above, the frame will be played only while the **"z" key** is down.
-On the other hand, in the second event, once the **"a" key** is pressed, the frame will continue to play until the **"a" key** is pressed again.
-When the event is restarted, the frame will start playing again from the beginning.
-
-You can also specify the **"always"** keyword to make it always play, as shown below.
+## event (必須)
+イベントの**開始**`start`と**終了**`end`を設定します。
+- それぞれ以下に示す**キーコード**と**キー状態**が必要です。
+- 二つは同じキーである必要はありません。
+- 同じイベントが複数存在しても問題ありません。同時に再生されるだけです。
+- 例外として**"always"**を指定することも可能です。常にイベントが有効の状態になります。
 ```json
 "event": "always"
 ```
 
-### Keyboard Codes
+#### キーコード
 - **"a"~"z"**
-- Special keys
-  - **"return"**
+- 特殊キー
+  - **"return"**（エンターキー）
   - **"lcontrol"** / **"rcontrol"**
   - **"lshift"** / **"rshift"**
   - **"space"**
 
-### Keyboard States
+#### キー状態
 - **"down"**
 - **"up"**
 
-## keying (required)
-Specifies **whether chroma keying will be applied**; if true, the default is to remove the green screen.
 
-You can use the HSV color space to specify the range of colors to be extracted as follows. (The respective HSV values are **[H, S, V]**)
+
+## keying (必須)
+クロマキー処理を適用するか**true**または**false**で指定します。
+- **true**とした場合、グリーンスクリーンが除去されます。
+- 任意の範囲を除去したい場合には、HSVカラーの値を設定することで可能です。
+(`lower_hsv`~`upper_hsv`の色が除去されます)
 ```json
 "keying":{
   "lower_hsv": [90, 35, 39],
@@ -145,15 +149,22 @@ You can use the HSV color space to specify the range of colors to be extracted a
 }
 ```
 
-## power_of_beat (optional)
-Specifies **how many beats to play the target frames to the end**. It's calculated by **2<sup>power_of_beat</sup>**.
+## power_of_beat (オプション)
+**何ビートで対象フレーム区間の再生を終えるかを設定できます。**
+**デフォルトの値は0です。**
+- ビートは**2<sup>power_of_beat</sup>**で計算されます。
+- 例) 0の場合: 2<sup>0</sup> = 1ビート。 -2の場合: 2<sup>-2</sup> = 1/4ビート
 
-For example, if the number is 0, the cycle will be 2<sup>0</sup>=1 beat; if the number is -2, the cycle will be 2<sup>-2</sup> = 1/4 beats; if the number is 2, the cycle will be 2<sup>2</sup>=4 beats.
+## trim (オプション)
+フレームを**[x座標, y座標, 幅, 高さ]で切り取ることができます**。
+- 座標やサイズは**元映像の解像度に対して適用されます**。
+- 座標は中央を原点とし、x座標は上にいくにれ、y座標は右にいくにつれて大きくなります。
+- 元映像のサイズを超えたり、不正なボックスであった場合は読み込みがスキップされます。
 
-The default value is **0**.
+## condition (オプション)
+フレームに変更を与えます。以下が有効です。
 
-## condition (optional)
-The following parameters are present.
+例:
 ```json
 "condition":{
   "coordinates": [200,200],
@@ -166,31 +177,31 @@ The following parameters are present.
 ```
 
 ### condition/ coordinates
-Specifies the coordinates of the center point of the target footage by **[x-coordinate, y-coordinate]**.
-
-With the center of the screen as the origin, the x-coordinate is positive on the right side and the y-coordinate is positive on the top side.
+対象フレームの中央を**どこに表示させるか**、**[x座標, y座標]**で設定できます。
+- 座標は中央を原点とし、x座標は上にいくにれ、y座標は右にいくにつれて大きくなります。
 
 ### condition/ angle
-Specifies **the number of degrees to rotate counterclockwise** around the center of the target footage.
-
-It can also take a negative value.
+**反時計回りに何度回転させるか**を設定できます。
+- 負の値も設定可能です。
 
 ### condition/ scale
-Specifies **the ratio of scaling** around the center of the target footage.
+対象フレームを**何倍にスケールさせるか**を設定できます。
+
 
 ### condition/ flip
-Apply **inversion for horizontal, vertical or both**.
+**反転**を設定できます。
+- `v`: Vertical Flip。上下反転。
+- `h`: Horizontal Flip。左右反転。
+- `both`:上下左右反転。
 
-It can take the values **"h"**, **"v"** or **"both"** respectively.
 
 ### condition/ grayscale
-Specifies whether **grayscaling will be applied**.
+**グレイスケールにするか**を設定できます。
 
 ### condition/ border
-You can set **how to fill the margins caused by the condition setting**.
-
-Choose from the following five options.
-
+**フレームに生じる余白の扱い**を設定できます。
+- **デフォルトでは"transparent"です。**
+- 以下のパラメータが有効です。
 |  border  |  result  |
 | :--- | :---: |
 |  transparent  |  <img src="img/border_transparent.png" alt="drawing" width="270"/>  |
