@@ -202,6 +202,7 @@ BPM設定用のキーを**二つ**設定します。
 **フレームに生じる余白の扱い**を設定できます。
 - **デフォルトでは"transparent"です。**
 - 以下のパラメータが有効です。
+
 |  border  |  result  |
 | :--- | :---: |
 |  transparent  |  <img src="img/border_transparent.png" alt="drawing" width="270"/>  |
